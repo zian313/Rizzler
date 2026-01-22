@@ -3,150 +3,206 @@
 @section('title', 'Edit Produk')
 
 @section('content')
-<div style="padding-top: 120px; padding-bottom: 3rem;">
-  <div style="max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 10px rgba(30, 9, 226, 0.1);">
+<div style="padding-top: 100px; padding-bottom: 3rem; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: calc(100vh - 100px);">
+  <div style="max-width: 800px; margin: 0 auto; padding: 0 1rem;">
     
-    <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 2rem; color: #000;">Edit Produk</h1>
+    <!-- Header Card -->
+    <div style="background: white; padding: 2rem; border-radius: 0.8rem; box-shadow: 0 4px 15px rgba(30, 9, 226, 0.1); margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <span style="font-size: 2.5rem;">✏️</span>
+        <div>
+          <h1 style="margin: 0; font-size: 2rem; font-weight: 700; color: #000;">Edit Produk</h1>
+          <p style="margin: 0.25rem 0 0 0; color: #666; font-size: 0.95rem;">Perbarui detail produk: <strong>{{ $product->name }}</strong></p>
+        </div>
+      </div>
+    </div>
 
+    <!-- Alert Error -->
     @if ($errors->any())
-      <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: 0.3rem; margin-bottom: 1.5rem; border: 1px solid #f5c6cb;">
-        <p style="font-weight: 600; margin-bottom: 0.5rem;">Terjadi kesalahan:</p>
-        @foreach ($errors->all() as $error)
-          <p style="margin: 0.25rem 0; font-size: 0.9rem;">• {{ $error }}</p>
-        @endforeach
+      <div style="background-color: #f8d7da; border-left: 4px solid #dc3545; color: #721c24; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+        <p style="font-weight: 600; margin: 0 0 0.75rem 0; font-size: 1rem;">⚠️ Ada Kesalahan dalam Form:</p>
+        <ul style="margin: 0; padding-left: 1.5rem;">
+          @foreach ($errors->all() as $error)
+            <li style="margin: 0.25rem 0;">{{ $error }}</li>
+          @endforeach
+        </ul>
       </div>
     @endif
 
-    <form method="POST" action="{{ route('products.update', $product) }}" enctype="multipart/form-data">
-      @csrf
-      @method('PUT')
+    <!-- Form Card -->
+    <div style="background: white; padding: 2.5rem; border-radius: 0.8rem; box-shadow: 0 4px 15px rgba(30, 9, 226, 0.1);">
+      <form method="POST" action="{{ route('products.update', $product) }}" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
 
-      <!-- Nama Produk -->
-      <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 1rem;">Nama Produk <span style="color: #dc3545;">*</span></label>
-        <input type="text" name="name" 
-               style="width: 100%; padding: 0.75rem; border: 1px solid {{ $errors->has('name') ? '#dc3545' : '#ddd' }}; border-radius: 0.3rem; font-size: 0.95rem; font-family: 'Poppins', sans-serif; transition: 0.3s;"
-               value="{{ old('name', $product->name) }}" 
-               placeholder="Masukkan nama produk"
-               onmouseover="this.style.borderColor='#1e09e2'"
-               onmouseout="this.style.borderColor='{{ $errors->has('name') ? '#dc3545' : '#ddd' }}'"
-               required>
-        @error('name')
-          <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
-        @enderror
-      </div>
-
-      <!-- Deskripsi -->
-      <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 1rem;">Deskripsi</label>
-        <textarea name="description" 
-                  style="width: 100%; padding: 0.75rem; border: 1px solid {{ $errors->has('description') ? '#dc3545' : '#ddd' }}; border-radius: 0.3rem; font-size: 0.95rem; font-family: 'Poppins', sans-serif; resize: vertical; min-height: 100px; transition: 0.3s;"
-                  placeholder="Masukkan deskripsi produk (opsional)"
-                  onmouseover="this.style.borderColor='#1e09e2'"
-                  onmouseout="this.style.borderColor='{{ $errors->has('description') ? '#dc3545' : '#ddd' }}'">{{ old('description', $product->description) }}</textarea>
-        @error('description')
-          <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
-        @enderror
-      </div>
-
-      <!-- Harga -->
-      <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 1rem;">Harga (Rp) <span style="color: #dc3545;">*</span></label>
-        <input type="number" name="price" step="0.01" 
-               style="width: 100%; padding: 0.75rem; border: 1px solid {{ $errors->has('price') ? '#dc3545' : '#ddd' }}; border-radius: 0.3rem; font-size: 0.95rem; font-family: 'Poppins', sans-serif; transition: 0.3s;"
-               value="{{ old('price', $product->price) }}" 
-               placeholder="0"
-               onmouseover="this.style.borderColor='#1e09e2'"
-               onmouseout="this.style.borderColor='{{ $errors->has('price') ? '#dc3545' : '#ddd' }}'"
-               required>
-        @error('price')
-          <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
-        @enderror
-      </div>
-
-      <!-- Stok -->
-      <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 1rem;">Stok <span style="color: #dc3545;">*</span></label>
-        <input type="number" name="stock" 
-               style="width: 100%; padding: 0.75rem; border: 1px solid {{ $errors->has('stock') ? '#dc3545' : '#ddd' }}; border-radius: 0.3rem; font-size: 0.95rem; font-family: 'Poppins', sans-serif; transition: 0.3s;"
-               value="{{ old('stock', $product->stock) }}" 
-               placeholder="0"
-               onmouseover="this.style.borderColor='#1e09e2'"
-               onmouseout="this.style.borderColor='{{ $errors->has('stock') ? '#dc3545' : '#ddd' }}'"
-               required>
-        @error('stock')
-          <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
-        @enderror
-      </div>
-
-      <!-- Kategori -->
-      <div style="margin-bottom: 1.5rem;">
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 1rem;">Kategori <span style="color: #dc3545;">*</span></label>
-        <div style="position: relative;">
-          <select name="category_id" 
-                  style="width: 100%; padding: 0.75rem 2.5rem 0.75rem 0.75rem; border: 1px solid {{ $errors->has('category_id') ? '#dc3545' : '#ddd' }}; border-radius: 0.3rem; font-size: 0.95rem; font-family: 'Poppins', sans-serif; background-color: white; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: 0.3s;"
-                  onmouseover="this.style.borderColor='#1e09e2'"
-                  onmouseout="this.style.borderColor='{{ $errors->has('category_id') ? '#dc3545' : '#ddd' }}'"
-                  required>
-            <option value="">-- Pilih Kategori --</option>
-            @foreach ($categories as $category)
-              <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                {{ $category->name }}
-              </option>
-            @endforeach
-          </select>
-          <span style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 0.8rem; color: #666;">▼</span>
+        <!-- Nama Produk -->
+        <div style="margin-bottom: 2rem;">
+          <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: #000; font-size: 1rem;">
+            📝 Nama Produk
+            <span style="color: #dc3545; font-weight: bold;">*</span>
+          </label>
+          <input type="text" name="name" 
+                 style="width: 100%; padding: 0.85rem 1rem; border: 2px solid {{ $errors->has('name') ? '#dc3545' : '#e0e0e0' }}; border-radius: 0.5rem; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: 0.3s; box-sizing: border-box;"
+                 value="{{ old('name', $product->name) }}" 
+                 placeholder="Contoh: Laptop Gaming ASUS ROG"
+                 onmouseover="this.style.borderColor='#1e09e2'; this.style.boxShadow='0 0 0 3px rgba(30, 9, 226, 0.1)'"
+                 onmouseout="this.style.borderColor='{{ $errors->has('name') ? '#dc3545' : '#e0e0e0' }}'; this.style.boxShadow='none'"
+                 required>
+          @error('name')
+            <small style="color: #dc3545; display: block; margin-top: 0.5rem; font-size: 0.85rem;">{{ $message }}</small>
+          @enderror
         </div>
-        @error('category_id')
-          <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
-        @enderror
-      </div>
 
-      <!-- Gambar Produk -->
-      <div style="margin-bottom: 2rem;">
-        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 1rem;">Gambar Produk</label>
-        
-        @if ($product->image)
-          <div style="margin-bottom: 1rem;">
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">Gambar saat ini:</p>
-            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 150px; border-radius: 0.3rem; border: 1px solid #ddd;">
+        <!-- Deskripsi -->
+        <div style="margin-bottom: 2rem;">
+          <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: #000; font-size: 1rem;">
+            📄 Deskripsi Produk
+          </label>
+          <textarea name="description" rows="4"
+                    style="width: 100%; padding: 0.85rem 1rem; border: 2px solid {{ $errors->has('description') ? '#dc3545' : '#e0e0e0' }}; border-radius: 0.5rem; font-size: 1rem; font-family: 'Poppins', sans-serif; resize: vertical; min-height: 120px; transition: 0.3s; box-sizing: border-box;"
+                    placeholder="Jelaskan detail produk seperti spesifikasi, fitur, dan keunggulannya..."
+                    onmouseover="this.style.borderColor='#1e09e2'; this.style.boxShadow='0 0 0 3px rgba(30, 9, 226, 0.1)'"
+                    onmouseout="this.style.borderColor='{{ $errors->has('description') ? '#dc3545' : '#e0e0e0' }}'; this.style.boxShadow='none'">{{ old('description', $product->description) }}</textarea>
+          @error('description')
+            <small style="color: #dc3545; display: block; margin-top: 0.5rem; font-size: 0.85rem;">{{ $message }}</small>
+          @enderror
+        </div>
+
+        <!-- Harga dan Stok -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+          <!-- Harga -->
+          <div>
+            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: #000; font-size: 1rem;">
+              💰 Harga (Rp)
+              <span style="color: #dc3545; font-weight: bold;">*</span>
+            </label>
+            <input type="number" name="price" step="0.01" 
+                   style="width: 100%; padding: 0.85rem 1rem; border: 2px solid {{ $errors->has('price') ? '#dc3545' : '#e0e0e0' }}; border-radius: 0.5rem; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: 0.3s; box-sizing: border-box;"
+                   value="{{ old('price', $product->price) }}" 
+                   placeholder="Contoh: 5000000"
+                   onmouseover="this.style.borderColor='#1e09e2'; this.style.boxShadow='0 0 0 3px rgba(30, 9, 226, 0.1)'"
+                   onmouseout="this.style.borderColor='{{ $errors->has('price') ? '#dc3545' : '#e0e0e0' }}'; this.style.boxShadow='none'"
+                   required>
+            @error('price')
+              <small style="color: #dc3545; display: block; margin-top: 0.5rem; font-size: 0.85rem;">{{ $message }}</small>
+            @enderror
           </div>
-        @endif
 
-        <div style="position: relative;">
-          <input type="file" name="image" accept="image/*" 
-                 style="width: 100%; padding: 0.75rem; border: 2px dashed {{ $errors->has('image') ? '#dc3545' : '#ddd' }}; border-radius: 0.3rem; font-size: 0.95rem; font-family: 'Poppins', sans-serif; cursor: pointer; transition: 0.3s;"
-                 id="image-input"
-                 onchange="previewImage(event)">
-          <small style="display: block; margin-top: 0.5rem; color: #666;">Format: JPEG, PNG, JPG, GIF | Max: 2MB (Kosongkan jika tidak ingin mengubah)</small>
+          <!-- Stok -->
+          <div>
+            <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: #000; font-size: 1rem;">
+              📦 Stok Produk
+              <span style="color: #dc3545; font-weight: bold;">*</span>
+            </label>
+            <input type="number" name="stock" 
+                   style="width: 100%; padding: 0.85rem 1rem; border: 2px solid {{ $errors->has('stock') ? '#dc3545' : '#e0e0e0' }}; border-radius: 0.5rem; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: 0.3s; box-sizing: border-box;"
+                   value="{{ old('stock', $product->stock) }}" 
+                   placeholder="Contoh: 10"
+                   onmouseover="this.style.borderColor='#1e09e2'; this.style.boxShadow='0 0 0 3px rgba(30, 9, 226, 0.1)'"
+                   onmouseout="this.style.borderColor='{{ $errors->has('stock') ? '#dc3545' : '#e0e0e0' }}'; this.style.boxShadow='none'"
+                   required>
+            @error('stock')
+              <small style="color: #dc3545; display: block; margin-top: 0.5rem; font-size: 0.85rem;">{{ $message }}</small>
+            @enderror
+          </div>
         </div>
 
-        <div id="preview-container" style="margin-top: 1rem; display: none;">
-          <p style="font-weight: 600; margin-bottom: 0.5rem; color: #000;">Preview Baru:</p>
-          <img id="preview-image" style="max-width: 200px; border-radius: 0.3rem; border: 1px solid #ddd;">
+        <!-- Kategori -->
+        <div style="margin-bottom: 2rem;">
+          <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: #000; font-size: 1rem;">
+            🏷️ Kategori Produk
+            <span style="color: #dc3545; font-weight: bold;">*</span>
+          </label>
+          <div style="position: relative;">
+            <select name="category_id" 
+                    style="width: 100%; padding: 0.85rem 2.5rem 0.85rem 1rem; border: 2px solid {{ $errors->has('category_id') ? '#dc3545' : '#e0e0e0' }}; border-radius: 0.5rem; font-size: 1rem; font-family: 'Poppins', sans-serif; background-color: white; appearance: none; -webkit-appearance: none; -moz-appearance: none; cursor: pointer; transition: 0.3s; box-sizing: border-box;"
+                    onchange="this.style.borderColor=this.value ? '#1e09e2' : '#e0e0e0'"
+                    onmouseover="this.style.borderColor='#1e09e2'; this.style.boxShadow='0 0 0 3px rgba(30, 9, 226, 0.1)'"
+                    onmouseout="this.style.borderColor='{{ $errors->has('category_id') ? '#dc3545' : '#e0e0e0' }}'; this.style.boxShadow='none'"
+                    required>
+              <option value="">-- Pilih Kategori --</option>
+              @foreach ($categories as $category)
+                <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                  {{ $category->name }}
+                </option>
+              @endforeach
+            </select>
+            <span style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: #999; font-size: 0.8rem;">▼</span>
+          </div>
+          @error('category_id')
+            <small style="color: #dc3545; display: block; margin-top: 0.5rem; font-size: 0.85rem;">{{ $message }}</small>
+          @enderror
         </div>
 
-        @error('image')
-          <small style="color: #dc3545; display: block; margin-top: 0.25rem;">{{ $message }}</small>
-        @enderror
-      </div>
+        <!-- Upload Gambar -->
+        <div style="margin-bottom: 2.5rem;">
+          <label style="display: block; margin-bottom: 0.75rem; font-weight: 600; color: #000; font-size: 1rem;">
+            📸 Foto Produk
+          </label>
+          
+          <!-- Current Image -->
+          @if ($product->image)
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background: #f0f8ff; border-radius: 0.5rem; border: 2px solid #e3f2fd;">
+              <p style="margin: 0 0 0.75rem 0; font-weight: 600; color: #333; font-size: 0.95rem;">📷 Foto Saat Ini:</p>
+              <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" 
+                   style="max-width: 200px; border-radius: 0.4rem; border: 2px solid #1e09e2; box-shadow: 0 4px 10px rgba(30, 9, 226, 0.2);">
+            </div>
+          @endif
+          
+          <div style="border: 2px dashed #1e09e2; border-radius: 0.8rem; padding: 2.5rem; text-align: center; cursor: pointer; transition: 0.3s; background: linear-gradient(135deg, rgba(30, 9, 226, 0.05) 0%, rgba(30, 9, 226, 0.02) 100%);"
+               onclick="document.getElementById('image-input').click()"
+               onmouseover="this.style.borderColor='#1a07b8'; this.style.backgroundColor='rgba(30, 9, 226, 0.1)'"
+               onmouseout="this.style.borderColor='#1e09e2'; this.style.backgroundColor='linear-gradient(135deg, rgba(30, 9, 226, 0.05) 0%, rgba(30, 9, 226, 0.02) 100%)'">
+            
+            <input type="file" name="image" accept="image/*" 
+                   style="display: none;"
+                   id="image-input"
+                   onchange="previewImage(event)">
+            
+            <div id="upload-prompt">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+              <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #333; font-size: 1.05rem;">Klik atau Drag Foto Produk Baru</p>
+              <p style="margin: 0; color: #999; font-size: 0.9rem;">Format: JPEG, PNG, GIF | Max: 2MB</p>
+            </div>
 
-      <!-- Tombol -->
-      <div style="display: flex; gap: 1rem;">
-        <button type="submit" 
-                style="flex: 1; padding: 0.85rem; background-color: #1e09e2; color: white; border: none; border-radius: 0.3rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif;"
-                onmouseover="this.style.backgroundColor='#1a07b8'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(30, 9, 226, 0.3)'"
-                onmouseout="this.style.backgroundColor='#1e09e2'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-          Update Produk
-        </button>
-        <a href="{{ route('products.index') }}" 
-           style="flex: 1; padding: 0.85rem; background-color: #6c757d; color: white; border: none; border-radius: 0.3rem; font-size: 1rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; transition: 0.3s; display: inline-block; font-family: 'Poppins', sans-serif;"
-           onmouseover="this.style.backgroundColor='#5a6268'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.1)'"
-           onmouseout="this.style.backgroundColor='#6c757d'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-          Batal
-        </a>
-      </div>
-    </form>
+            <div id="preview-container" style="display: none;">
+              <img id="preview-image" style="max-width: 300px; max-height: 300px; border-radius: 0.5rem; border: 2px solid #1e09e2; box-shadow: 0 4px 10px rgba(30, 9, 226, 0.2);">
+              <p style="margin: 1rem 0 0 0; color: #666; font-size: 0.9rem;">
+                <strong id="filename"></strong><br>
+                <small style="color: #999;">Klik atau drag untuk mengubah foto</small>
+              </p>
+            </div>
+          </div>
+
+          @error('image')
+            <small style="color: #dc3545; display: block; margin-top: 0.75rem; font-size: 0.85rem;">{{ $message }}</small>
+          @enderror
+        </div>
+
+        <!-- Buttons -->
+        <div style="display: flex; gap: 1.5rem; padding-top: 1.5rem; border-top: 2px solid #f0f0f0;">
+          <button type="submit" 
+                  style="flex: 1; padding: 1rem 2rem; background: linear-gradient(135deg, #1e09e2 0%, #1a07b8 100%); color: white; border: none; border-radius: 0.6rem; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif; box-shadow: 0 4px 15px rgba(30, 9, 226, 0.3);"
+                  onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(30, 9, 226, 0.4)'"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(30, 9, 226, 0.3)'">
+            ✅ Perbarui Produk
+          </button>
+          <a href="{{ route('products.index') }}" 
+             style="flex: 1; padding: 1rem 2rem; background-color: #e0e0e0; color: #333; border: none; border-radius: 0.6rem; font-size: 1.05rem; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif;"
+             onmouseover="this.style.backgroundColor='#d0d0d0'; this.style.transform='translateY(-3px)'"
+             onmouseout="this.style.backgroundColor='#e0e0e0'; this.style.transform='translateY(0)'">
+            ❌ Batal
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Info Box -->
+    <div style="background: #e3f2fd; border-left: 4px solid #1e09e2; padding: 1.5rem; border-radius: 0.5rem; margin-top: 2rem;">
+      <p style="margin: 0; color: #1565c0; font-size: 0.95rem;">
+        <strong>💡 Tips:</strong> Perbarui informasi produk sesuai kebutuhan. Hanya upload foto baru jika ingin mengubahnya.
+      </p>
+    </div>
   </div>
 </div>
 
@@ -154,10 +210,26 @@
   function previewImage(event) {
     const file = event.target.files[0];
     if (file) {
+      // Validasi ukuran file
+      if (file.size > 2 * 1024 * 1024) {
+        alert('Ukuran file terlalu besar! Max 2MB');
+        event.target.value = '';
+        return;
+      }
+
+      // Validasi tipe file
+      if (!['image/jpeg', 'image/png', 'image/gif', 'image/jpg'].includes(file.type)) {
+        alert('Format file tidak didukung! Gunakan JPEG, PNG, atau GIF');
+        event.target.value = '';
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById('preview-image').src = e.target.result;
+        document.getElementById('upload-prompt').style.display = 'none';
         document.getElementById('preview-container').style.display = 'block';
+        document.getElementById('preview-image').src = e.target.result;
+        document.getElementById('filename').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
       }
       reader.readAsDataURL(file);
     }

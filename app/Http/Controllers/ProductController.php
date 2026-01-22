@@ -16,6 +16,22 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
+    // Tampilkan produk untuk pembeli
+    public function pembeli(Request $request)
+    {
+        $query = Product::with('category');
+
+        // Filter by category jika ada
+        if ($request->has('category') && $request->category) {
+            $query->where('category_id', $request->category);
+        }
+
+        $products = $query->paginate(12);
+        $categories = Category::all();
+
+        return view('products.pembeli', compact('products', 'categories'));
+    }
+
     // Form untuk membuat produk baru
     public function create()
     {

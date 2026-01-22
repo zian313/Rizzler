@@ -48,7 +48,7 @@
               </p>
 
               <!-- Actions -->
-              @if (Auth::check())
+              @if (Auth::check() && Auth::user()->role === 'admin')
                 <div style="display: flex; gap: 0.5rem;">
                   <a href="{{ route('categories.edit', $category) }}" 
                      style="flex: 1; background-color: #0dcaf0; color: white; padding: 0.5rem; border-radius: 0.3rem; font-size: 0.85rem; text-decoration: none; text-align: center; font-weight: 600; transition: 0.3s; display: inline-block;"

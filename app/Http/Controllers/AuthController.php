@@ -28,6 +28,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'pembeli', // Assign role pembeli otomatis
         ]);
 
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
@@ -49,6 +50,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
+            
+            // Redirect berdasarkan role
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.dashboard')->with('success', 'Login berhasil! Selamat datang Admin.');
+            }
+            
             return redirect()->route('home')->with('success', 'Login berhasil!');
         }
 

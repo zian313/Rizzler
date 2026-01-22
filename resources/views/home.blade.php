@@ -9,9 +9,21 @@
     <h1 style="font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.2; position: relative; z-index: 2;">Selamat Datang di E-Commerce</h1>
     <p style="font-size: 1.3rem; margin-bottom: 2rem; max-width: 600px; line-height: 1.6; position: relative; z-index: 2;">Temukan produk pilihan berkualitas dengan harga terbaik. Belanja mudah, aman, dan terpercaya bersama kami.</p>
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 2;">
-      <a href="{{ route('products.index') }}" style="background-color: white; color: #1e09e2; padding: 1rem 2rem; border-radius: 0.5rem; font-weight: 600; font-size: 1.1rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-        Belanja Sekarang
-      </a>
+      @auth
+        @if (Auth::user()->isPembeli())
+          <a href="{{ route('products.pembeli') }}" style="background-color: white; color: #1e09e2; padding: 1rem 2rem; border-radius: 0.5rem; font-weight: 600; font-size: 1.1rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            🛒 Belanja Sekarang
+          </a>
+        @else
+          <a href="{{ route('products.index') }}" style="background-color: white; color: #1e09e2; padding: 1rem 2rem; border-radius: 0.5rem; font-weight: 600; font-size: 1.1rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            📦 Kelola Produk
+          </a>
+        @endif
+      @else
+        <a href="{{ route('login') }}" style="background-color: white; color: #1e09e2; padding: 1rem 2rem; border-radius: 0.5rem; font-weight: 600; font-size: 1.1rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+          🛒 Belanja Sekarang
+        </a>
+      @endauth
       <a href="#about" style="background-color: rgba(255,255,255,0.2); color: white; padding: 1rem 2rem; border-radius: 0.5rem; font-weight: 600; font-size: 1.1rem; text-decoration: none; border: 2px solid white; transition: 0.3s;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.3)'" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.2)'">
         Pelajari Lebih Lanjut
       </a>
