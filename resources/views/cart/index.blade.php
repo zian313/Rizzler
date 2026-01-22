@@ -126,10 +126,8 @@
             <form action="{{ route('cart.checkout') }}" method="POST">
               @csrf
               
-              <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-              
               <div style="margin-bottom: 1rem;">
-                <label for="shipping_address" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 0.9rem;">Alamat Pengiriman</label>
+                <label for="shipping_address" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 0.9rem;">Alamat Pengiriman <span style="color: #dc3545;">*</span></label>
                 <textarea name="shipping_address" id="shipping_address" placeholder="Masukkan alamat pengiriman lengkap" rows="3" style="width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 0.3rem; font-size: 0.9rem; font-family: inherit; box-sizing: border-box;" required></textarea>
                 @error('shipping_address')
                   <p style="color: #dc3545; font-size: 0.85rem; margin: 0.3rem 0 0 0;">{{ $message }}</p>
@@ -137,15 +135,15 @@
               </div>
 
               <div style="margin-bottom: 1.5rem;">
-                <label for="phone" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 0.9rem;">No. Telepon (opsional)</label>
-                <input type="text" name="phone" id="phone" placeholder="Masukkan no. telepon" style="width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 0.3rem; font-size: 0.9rem; box-sizing: border-box;">
+                <label for="phone" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #000; font-size: 0.9rem;">No. Telepon <span style="color: #dc3545;">*</span></label>
+                <input type="text" name="phone" id="phone" placeholder="Contoh: 083844492691" style="width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 0.3rem; font-size: 0.9rem; box-sizing: border-box;" required>
                 @error('phone')
                   <p style="color: #dc3545; font-size: 0.85rem; margin: 0.3rem 0 0 0;">{{ $message }}</p>
                 @enderror
               </div>
 
               <button type="submit" style="width: 100%; background-color: #1e09e2; color: white; padding: 0.8rem; border-radius: 0.5rem; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: 0.3s;" onmouseover="this.style.backgroundColor='#1a07b8'" onmouseout="this.style.backgroundColor='#1e09e2'">
-                Lanjut Checkout
+                💬 Checkout via WhatsApp
               </button>
             </form>
 

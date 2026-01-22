@@ -85,7 +85,7 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Keranjang berhasil dikosongkan!');
     }
 
-    // Checkout - dari cart ke order
+    // Checkout - dari cart ke order dengan WhatsApp integration
     public function checkout(Request $request)
     {
         $cart = $this->getCart();
@@ -95,15 +95,14 @@ class CartController extends Controller
         }
 
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'shipping_address' => 'required|string',
-            'phone' => 'nullable|string',
+            'phone' => 'required|string',
         ]);
 
         // Buat order baru
         $totalPrice = $cart->getTotalPrice();
         $order = Order::create([
-            'user_id' => $request->user_id,
+            'user_id' => auth()->id(),
             'status' => 'pending',
             'total_price' => $totalPrice,
             'shipping_address' => $request->shipping_address,
@@ -111,6 +110,7 @@ class CartController extends Controller
         ]);
 
         // Pindahkan items dari cart ke order_items
+        $orderDetails = "Pesanan #" . $order->id . ":\n\n";
         foreach ($cart->items as $cartItem) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -118,12 +118,27 @@ class CartController extends Controller
                 'quantity' => $cartItem->quantity,
                 'price' => $cartItem->product->price,
             ]);
+            
+            // Build order details untuk WhatsApp
+            $orderDetails .= "- " . $cartItem->product->name . "\n";
+            $orderDetails .= "  Qty: " . $cartItem->quantity . " x Rp " . number_format($cartItem->product->price, 0, ',', '.') . "\n";
+            $orderDetails .= "  Subtotal: Rp " . number_format($cartItem->quantity * $cartItem->product->price, 0, ',', '.') . "\n\n";
         }
+
+        // Tambah info pengiriman
+        $orderDetails .= "Alamat: " . $request->shipping_address . "\n";
+        $orderDetails .= "No HP: " . $request->phone . "\n";
+        $orderDetails .= "Total: Rp " . number_format($totalPrice, 0, ',', '.') . "\n";
 
         // Kosongkan cart
         $cart->items()->delete();
 
-        return redirect()->route('orders.show', $order)->with('success', 'Order berhasil dibuat! Terima kasih telah berbelanja.');
+        // Buat WhatsApp message dan redirect
+        $whatsappNumber = '083844492691';
+        $message = urlencode($orderDetails);
+        $whatsappUrl = "https://wa.me/" . $whatsappNumber . "?text=" . $message;
+
+        return redirect($whatsappUrl)->with('success', 'Order berhasil dibuat! Silakan lanjutkan pembelian di WhatsApp.');
     }
 
     // Helper: Get atau Create Cart
