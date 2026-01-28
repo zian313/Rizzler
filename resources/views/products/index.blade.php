@@ -15,12 +15,7 @@
           <p style="margin: 0.25rem 0 0 0; color: #666; font-size: 0.95rem;">Total: <strong style="color: #1e09e2;">{{ $products->count() }} produk</strong></p>
         </div>
       </div>
-      <a href="{{ route('products.create') }}" 
-         style="padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #1e09e2 0%, #1a07b8 100%); color: white; border: none; border-radius: 0.6rem; font-size: 0.95rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Poppins', sans-serif; box-shadow: 0 4px 15px rgba(30, 9, 226, 0.3);"
-         onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(30, 9, 226, 0.4)'"
-         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(30, 9, 226, 0.3)'">
-        ➕ Tambah Produk
-      </a>
+      
     </div>
 
     <!-- Alert Success -->
@@ -47,7 +42,7 @@
                 <th style="padding: 1.5rem; text-align: left; font-weight: 700; color: #333; font-size: 0.95rem;">Kategori</th>
                 <th style="padding: 1.5rem; text-align: center; font-weight: 700; color: #333; font-size: 0.95rem;">Harga</th>
                 <th style="padding: 1.5rem; text-align: center; font-weight: 700; color: #333; font-size: 0.95rem;">Stok</th>
-                <th style="padding: 1.5rem; text-align: center; font-weight: 700; color: #333; font-size: 0.95rem;">Aksi</th>
+                
               </tr>
             </thead>
             <tbody>
@@ -85,23 +80,7 @@
                   </td>
                   <td style="padding: 1.25rem 1.5rem; text-align: center;">
                     <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                      <a href="{{ route('products.edit', $product->id) }}" 
-                         style="padding: 0.5rem 1rem; background-color: #1e09e2; color: white; border: none; border-radius: 0.4rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.3s; font-family: 'Poppins', sans-serif;"
-                         onmouseover="this.style.backgroundColor='#1a07b8'; this.style.transform='scale(1.05)'"
-                         onmouseout="this.style.backgroundColor='#1e09e2'; this.style.transform='scale(1)'">
-                        ✏️ Edit
-                      </a>
-                      <form method="POST" action="{{ route('products.destroy', $product->id) }}" style="display: inline; margin: 0;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" 
-                                style="padding: 0.5rem 1rem; background-color: #dc3545; color: white; border: none; border-radius: 0.4rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif;"
-                                onmouseover="this.style.backgroundColor='#c82333'; this.style.transform='scale(1.05)'"
-                                onmouseout="this.style.backgroundColor='#dc3545'; this.style.transform='scale(1)'"
-                                onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
-                          🗑️ Hapus
-                        </button>
-                      </form>
+                      
                     </div>
                   </td>
                 </tr>

@@ -72,21 +72,7 @@
           @endif
 
           <div style="display: flex; gap: 1rem;">
-            <a href="{{ route('products.edit', $product) }}" 
-               style="flex: 1; padding: 0.75rem; background-color: #0dcaf0; color: white; border: none; border-radius: 0.3rem; font-weight: 600; text-decoration: none; text-align: center; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif;"
-               onmouseover="this.style.backgroundColor='#0bb5e3'"
-               onmouseout="this.style.backgroundColor='#0dcaf0'">
-              Edit Produk
-            </a>
-            <form method="POST" action="{{ route('products.destroy', $product) }}" style="flex: 1;" onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
-              @csrf
-              @method('DELETE')
-              <button type="submit" 
-                      style="width: 100%; padding: 0.75rem; background-color: #dc3545; color: white; border: none; border-radius: 0.3rem; font-weight: 600; cursor: pointer; transition: 0.3s; font-family: 'Poppins', sans-serif;"
-                      onmouseover="this.style.backgroundColor='#c82333'"
-                      onmouseout="this.style.backgroundColor='#dc3545'">
-                Hapus Produk
-              </button>
+            
             </form>
           </div>
         </div>
