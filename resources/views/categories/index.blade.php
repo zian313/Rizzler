@@ -10,12 +10,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
       <h1 style="font-size: 2rem; font-weight: 700; color: #000;">Daftar Kategori</h1>
       @if (Auth::check())
-        <a href="{{ route('categories.create') }}" 
-           style="background-color: #1e09e2; color: white; padding: 0.75rem 1.5rem; border-radius: 0.3rem; font-weight: 600; text-decoration: none; transition: 0.3s; display: inline-block;"
-           onmouseover="this.style.backgroundColor='#1a07b8'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(30, 9, 226, 0.3)'"
-           onmouseout="this.style.backgroundColor='#1e09e2'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-          + Tambah Kategori
-        </a>
+        
       @endif
     </div>
 
