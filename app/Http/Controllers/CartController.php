@@ -13,6 +13,7 @@ class CartController extends Controller
 {
     // Tampilkan cart
     public function index()
+
     {
         $cart = $this->getCart();
         $cartItems = $cart ? $cart->items()->with('product')->get() : [];
